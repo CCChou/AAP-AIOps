@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: yes  # 需要获取当前时间用于时间戳
   vars:
-    alert_file: "/tmp/alert_info.txt"  # 告警文件路径
+    # alert_file: "/tmp/alert_info.txt"  # 告警文件路径
     rca_output_file: "/tmp/rhel7_RCA_{{ ansible_date_time.iso8601_basic_short }}.txt"  # 根因分析结果文件
     remediate_playbook_file: "/tmp/rhel7_remediate_by_deepseek.yml"  # 修复 Playbook 文件路径
     mail_host: "smtp.gmail.com"
@@ -16,37 +16,39 @@
 
   tasks:
     # 新增任务：从 EDA 服务器 fetch 文件到 AAP 服务器
-    - name: Fetch alert_info.txt from EDA server to AAP server
-      ansible.builtin.fetch:
-        src: "/tmp/alert_info.txt"
-        dest: "/tmp/alert_info.txt"
-        flat: yes
-      delegate_to: localhost
+    # - name: Fetch alert_info.txt from EDA server to AAP server
+    #   ansible.builtin.fetch:
+    #     src: "/tmp/alert_info.txt"
+    #     dest: "/tmp/alert_info.txt"
+    #     flat: yes
+    #   delegate_to: localhost
 
     # 更新 alert_file 变量为 AAP 服务器上的路径
-    - name: Set alert_file path to AAP server
-      ansible.builtin.set_fact:
-        alert_file: "/tmp/alert_info.txt"
+    # - name: Set alert_file path to AAP server
+    #   ansible.builtin.set_fact:
+    #     alert_file: "/tmp/alert_info.txt"
 
     # 任务 1：读取告警文件
-    - name: Read alert information from file
-      ansible.builtin.slurp:
-        src: "{{ alert_file }}"
-      register: alert_data
+    # - name: Read alert information from file
+    #   ansible.builtin.slurp:
+    #     src: "{{ alert_file }}"
+    #   register: alert_data
+    - name: Print alert event
+      debug:
+        msg: "{{ alert_event }}"
 
-
-    # 任务 2：解析告警数据（JSON 格式）
-    - name: Parse alert data as JSON
-      ansible.builtin.set_fact:
-        alert_json: "{{ alert_data.content | b64decode | from_json }}"
+    # # 任务 2：解析告警数据（JSON 格式）
+    # - name: Parse alert data as JSON
+    #   ansible.builtin.set_fact:
+    #     alert_json: "{{ alert_event.content | b64decode | from_json }}"
 
     # 任务 3：提取所需字段
     - name: Extract required fields from alert data
       ansible.builtin.set_fact:
-        alertname: "{{ alert_json.payload.alerts[0].labels.alertname }}"
-        instance: "{{ alert_json.payload.alerts[0].labels.instance }}"
-        service_name: "{{ alert_json.payload.alerts[0].labels.name }}"
-        service_state: "{{ alert_json.payload.alerts[0].labels.state }}"
+        alertname: "{{ alert_event.payload.alerts[0].labels.alertname }}"
+        instance: "{{ alert_event.payload.alerts[0].labels.instance }}"
+        service_name: "{{ alert_event.payload.alerts[0].labels.name }}"
+        service_state: "{{ alert_event.payload.alerts[0].labels.state }}"
 
     # 任务 4：处理 instance 字段，提取 IP 地址（去掉端口号）
     - name: Extract IP address from instance
