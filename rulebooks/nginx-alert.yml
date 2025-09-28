@@ -1,6 +1,6 @@
 ---
 - name: Listen for Nginx Service Failed Alerts and Process with Module
-  hosts: aap25EDA
+  hosts: all
   sources:
     - ansible.eda.webhook:
         host: 0.0.0.0
@@ -30,6 +30,6 @@
 
         # 运行AIOPS workflow
         - run_workflow_template:
-            name: AIOPS_Nginx_self_healing
-            organization: Venetian
+            name: aiops
+            organization: Defaykt
             
