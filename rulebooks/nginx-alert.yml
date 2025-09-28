@@ -1,6 +1,6 @@
 ---
 - name: Listen for Nginx Service Failed Alerts and Process with Module
-  hosts: localhost
+  hosts: aap
   sources:
     - ansible.eda.webhook:
         host: 0.0.0.0
