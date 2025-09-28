@@ -30,6 +30,6 @@
 
         # 运行AIOPS workflow
         - run_workflow_template:
-            name: aiops
-            organization: Defaykt
+            name: test
+            organization: Default
             
