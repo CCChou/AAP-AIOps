@@ -32,5 +32,6 @@
         - run_job_template:
             name: test
             organization: Default
-            extra_vars:
-              alert_event: "{{ event.payload }}"
+            job_args:
+              extra_vars:
+                alert_event: "{{ event }}"
