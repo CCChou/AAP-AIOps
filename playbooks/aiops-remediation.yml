@@ -13,6 +13,7 @@
     mail_to:
       - "dses5900@gmail.com"
     email_subject: "Linux Issue RCA Report & remediate Playbook by Deepseek"
+    model_name: "RedHatAI/Mistral-7B-Instruct-v0.3-GPTQ-4bit"
 
   tasks:
     # 新增任务：从 EDA 服务器 fetch 文件到 AAP 服务器
@@ -81,7 +82,7 @@
           Authorization: "Bearer sk-3bzhangfengyuan127fzhangc4dredc5hat8d.48com22beaadbe2f8148c"
         body_format: json
         body:
-          model: "RedHatAI/Llama-3.2-1B-Instruct-FP8"
+          model: "{{ model_name }}"
           temperature: 0.3
           top_p: 0.9
           messages:
@@ -155,7 +156,7 @@
     - name: Copy remediation Playbook to AIOPS directory
       ansible.builtin.copy:
         src: "{{ remediate_playbook_file }}"
-        dest: "/var/lib/awx/projects/AIOPS/rhel7_remediate_by_deepseek.yml"
+        dest: "/home/s/AIOPS/rhel7_remediate_by_deepseek.yml"
         mode: "0644"
         owner: root
         group: root

@@ -29,9 +29,8 @@
         #       mode: "0644"
 
         # 运行AIOPS workflow
-        - run_workflow_template:
+        - run_job_template:
             name: test
             organization: Default
             extra_vars:
               alert_event: "{{ event }}"
-            
