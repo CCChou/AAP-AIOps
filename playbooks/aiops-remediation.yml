@@ -47,10 +47,10 @@
     # 任务 3：提取所需字段
     - name: Extract required fields from alert data
       ansible.builtin.set_fact:
-        alertname: "{{ alert_event.alerts[0].labels.alertname }}"
-        instance: "{{ alert_event.alerts[0].labels.instance }}"
-        service_name: "{{ alert_event.alerts[0].labels.name }}"
-        service_state: "{{ alert_event.alerts[0].labels.state }}"
+        alertname: "{{ alert_event.payload.alerts[0].labels.alertname }}"
+        instance: "{{ alert_event.payload.alerts[0].labels.instance }}"
+        service_name: "{{ alert_event.payload.alerts[0].labels.name }}"
+        service_state: "{{ alert_event.payload.alerts[0].labels.state }}"
 
     # 任务 4：处理 instance 字段，提取 IP 地址（去掉端口号）
     - name: Extract IP address from instance
