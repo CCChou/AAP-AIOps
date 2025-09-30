@@ -14,6 +14,7 @@
       - "dses5900@gmail.com"
     email_subject: "Linux Issue RCA Report & remediate Playbook by Deepseek"
     model_name: "RedHatAI/Mistral-7B-Instruct-v0.3-GPTQ-4bit"
+    api_url: "ec2-16-176-181-89.ap-southeast-2.compute.amazonaws.com"
 
   tasks:
     # 新增任务：从 EDA 服务器 fetch 文件到 AAP 服务器
@@ -75,7 +76,7 @@
     # 任务 6：调用 Deepseek API
     - name: Send alert data to Deepseek API
       ansible.builtin.uri:
-        url: "http://ec2-3-25-246-237.ap-southeast-2.compute.amazonaws.com/v1/chat/completions"
+        url: "http://{{ api_url }}/v1/chat/completions"
         method: POST
         headers:
           Content-Type: "application/json"
