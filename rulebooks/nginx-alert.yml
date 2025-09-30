@@ -33,4 +33,4 @@
             name: test
             organization: Default
             extra_vars:
-              alert_event: "{{ event }}"
+              alert_event: "{{ event.payload }}"
