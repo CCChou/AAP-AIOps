@@ -1,6 +1,6 @@
 ---
 - name: Send Alert Information to Deepseek and Save Response
-  hosts: localhost
+  hosts: all
   gather_facts: yes  # 需要获取当前时间用于时间戳
   vars:
     # alert_file: "/tmp/alert_info.txt"  # 告警文件路径
